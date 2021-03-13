@@ -1,0 +1,21 @@
+<!--İçini komple sildik son satır hariç-->
+<!-- <h1>Welcome to {{title}}</h1> /*Burada add.component.ts'ye gidip AppComponent'teki title'ı alıyor.*/
+Hello {{user}}
+<br>
+{{product1.productName}}
+
+<ul>
+  <li *ngFor="let product of products">{{product.productName}}</li> /*products dizisinin içindeki nesneleri döndürmek için. *ngFor li'yi tekrarlamak için.*/
+</ul> -->
+<div class="container">
+  <app-navi></app-navi> <!--Oluşturduğumuz componentleri eklemek için. Bu 3 component'te app componentinin altında-->
+  <div class="row"> <!--category ve product alanlarının yanyana gelmesini sağlıyoruz.Aynı satırda olacaklar-->
+    <div class="col-md-3">
+      <app-category></app-category>
+    </div>
+    <div class="col-md-9">
+      <app-product></app-product>
+    </div>
+  </div>
+  <router-outlet></router-outlet>
+</div>
