@@ -1,11 +1,16 @@
-<table class="table">
-    <tr>
-        <td>ProductId</td>
-        <td>ProductName</td>
-        <td>CategoryId</td>
-        <td>UnitsInStock</td>
-        <td>UnitPrice</td>
-    </tr>
+<div *ngIf="dataLoaded==false" class="spinner-border text-info" role="status"> <!--dataLoaded false ise veriler yüklenirken spinners çalışacak.Veriler gelince yok olacak-->
+    <span class="visually-hidden">Loading...</span>
+  </div>
+<table *ngIf="dataLoaded==true" class="table">
+    <thead>
+        <tr>
+            <th>ProductId</th>
+            <th>ProductName</th>
+            <th>CategoryId</th>
+            <th>UnitsInStock</th>
+            <th>UnitPrice</th>
+        </tr>
+    </thead>
     <tr *ngFor="let product of products"> <!--Satır--> <!--*ngFor : döngü-->
         <td>{{product.productId}}</td> <!--Sütun-->
         <td>{{product.productName}}</td>
