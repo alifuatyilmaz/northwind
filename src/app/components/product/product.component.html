@@ -1,6 +1,15 @@
 <div *ngIf="dataLoaded==false" class="spinner-border text-info" role="status"> <!--dataLoaded false ise veriler yüklenirken spinners çalışacak.Veriler gelince yok olacak-->
     <span class="visually-hidden">Loading...</span>
   </div>
+
+  <div class="mb-3">
+    <label for="filterText" class="form-label">Ürün ara</label>
+    <input type="text" [(ngModel)]="filterText" class="form-control" id="filterText" placeholder="arama ifadesi giriniz"> <!--kullanıcının girdiği veriyi okumak için ngModel tanımla product.component'teki filterText ile eşleştir.-->
+  </div><!--ngModel çalışması için app.module gidip FormsModule import et.-->
+  <div *ngIf="filterText.length>2" class="alert alert-secondary"> <!--filterText var ise aradınız kısmı yazacak.Yoksa hiç bir şey yazmayacak.Girilen karakter sayısı 2 den büyükse yazacak-->
+    {{filterText}} aradınız.
+  </div>
+
 <table *ngIf="dataLoaded==true" class="table">
     <thead>
         <tr>
@@ -9,13 +18,19 @@
             <th>Kategori</th>
             <th>Stok Adedi</th>
             <th>Fiyatı</th>
+            <th>Kdv'li Fiyatı</th>
+            <th></th>
         </tr>
     </thead>
-    <tr *ngFor="let product of products"> <!--Satır--> <!--*ngFor : döngü-->
-        <td>{{product.productId}}</td> <!--Sütun-->
-        <td>{{product.productName}}</td>
-        <td>{{product.categoryId}}</td>
-        <td>{{product.unitsInStock}}</td>
-        <td>{{product.unitPrice}}</td>
-    </tr>
+    <tbody>
+        <tr *ngFor="let product of products | filterPipe:filterText"> <!--Satır--> <!--*ngFor : döngü--><!--filterPipe'ı çağır-->
+            <td>{{product.productId}}</td> <!--Sütun-->
+            <td>{{product.productName | uppercase}}</td> <!--uppercase : yazıları büyültür.lowercase : yazıları küçültür.currency:para birimi-->
+            <td>{{product.categoryId}}</td>
+            <td>{{product.unitsInStock}}</td>
+            <td>{{product.unitPrice | currency }}</td>
+            <td>{{product.unitPrice | vatAdded:18 | currency }}</td> <!--Pipe'lara parametre gönderebiliyoruz.Birden fazla pipe kullanılabilir-->
+            <td><button (click)="addToCart(product)" type="button" class="btn btn-success">Sepete ekle</button></td> <!--Sepete eklemek için product'ın o anki değerini alıyoruz-->
+        </tr>
+    </tbody>
 </table>
