@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Product } from 'src/app/models/product';
+import { CartService } from 'src/app/services/cart.service';
 import { ProductService } from 'src/app/services/product.service';
 
 @Component({
@@ -15,7 +16,7 @@ export class ProductComponent implements OnInit {
   dataLoaded = false; // Data yüklenmeye başladığında false olacak.
   filterText="";
 
-  constructor(private productService:ProductService, private activatedRoute:ActivatedRoute, private toastrService:ToastrService) { } //Service kullanmak için ve Parametreyi okumak için. 
+  constructor(private productService:ProductService, private activatedRoute:ActivatedRoute, private toastrService:ToastrService, private cartService:CartService) { } //Service kullanmak için ve Parametreyi okumak için. 
   //Private'daki amaç dışardan ProductComponent'i kullanmak isteyen birisi ProductComponent'in örneğini oluşturduktan sonra httpClient'ta gelir. Private dersen sadece bu class'ta çalışır.
 
   ngOnInit(): void { // Bu sayfada yapılacak en son kodlama
@@ -44,6 +45,12 @@ export class ProductComponent implements OnInit {
     }; 
   
   addToCart(product:Product){
-    this.toastrService.success("Sepete eklendi", product.productName)
+    if(product.unitsInStock===0){
+      this.toastrService.error("Hata","Yeterli stok yok sepete eklenemedi")
+    }else{
+      this.toastrService.success("Sepete eklendi", product.productName)
+      this.cartService.addToCart(product);
+    }
+    
   }
   }

@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http' // Api'den verilerimizi çekme
 import { Observable } from 'rxjs';
 import { Product } from '../models/product';
 import { ListResponseModel } from '../models/listResponseModel';
+import { ResponseModel } from '../models/responseModel';
 
 @Injectable({
   providedIn: 'root'
@@ -30,4 +31,8 @@ export class ProductService {
     }); 
     Bu kodu her yerde yazma ihtimalimiz olduğu için service dediğimiz bir mekanizmanın içine koyuyoruz.Bunun için bir services klasörü oluşturuyoruz.
     */
+
+    add(product:Product):Observable<ResponseModel>{
+      return this.httpClient.post<ResponseModel>(this.apiUrl+"products/add",product) // Hangi adrese ne göndereyim onu belirliyoruz.
+    }
 }
